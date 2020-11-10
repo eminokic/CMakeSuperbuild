@@ -52,4 +52,26 @@ CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix <INSTALL_DIR>
 )
 ```
 
+### Adding Libaries Structure
+
+This will be the main structure of our superbuild model where each external project controls it's own libraries through out the project. Each dependency controlling it's own respective library allows the superbuild to put more focus to bringing external projects together. The superbuild will write its own specific details of the project(s) if needed. However, this worst-case scenario takes away from the power of the superbuild.
+
+#### Model Structure
+
+```cmake
+cmake_minimum_required(VERSION 3.0)
+project(CMaizeSuperbuild)
+include(ExternalProject)
+
+ExternalProject_Add_Step( CMaizeSuperbuild Package
+...
+COMMAND ${CMAKE_COMMAND} --build <BINARY_DIR> --targetPack 
+DEPENDEES build
+ALWAYS YES
+EXCLUDE_FROM_MAIN YES
+)
+
+ExternalProject_Add_StepTargets( CMaizeSuperbuild Package)
+
+```
 
